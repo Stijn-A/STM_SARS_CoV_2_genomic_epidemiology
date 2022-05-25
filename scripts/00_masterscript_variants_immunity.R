@@ -1,10 +1,10 @@
 # Author: Stijn P. Andeweg (email: stijn.andeweg@rivm.nl)
 # Title: Elevated risk of infection with SARS-CoV-2 Beta, Gamma, and Delta variant compared to Alpha variant in vaccinated individuals
 
-### initialize 
-setwd("/rivm/n/andewegs/Documents/SARS-CoV-2/02_project_immune_varianten/STM_SARS_CoV_2_genomic_epidemiology/")
+setwd("/YOURPATH/STM_SARS_CoV_2_genomic_epidemiology/")
 
-PATH_data <- "/rivm/r/COVID-19/Surveillance/Data/"
+### initialize 
+source(file = "scripts/01_init_PATHS.R")
 
 ## packages
 lapply(c("tidyverse", "rlang", "lubridate", "readxl", "writexl", "broom.mixed", "ISOweek", 
