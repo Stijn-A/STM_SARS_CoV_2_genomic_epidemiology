@@ -3,7 +3,7 @@
 
 setwd("/YOURPATH/STM_SARS_CoV_2_genomic_epidemiology/")
 
-### initialize 
+### initialize PATH data
 source(file = "scripts/01_init_PATHS.R")
 
 ## packages
