@@ -1,17 +1,3 @@
-
-# introduction
-
-# Fractie
-JANS <- 792084
-AZ <- 2800755
-MOD <- 1958396
-COM <- 17555618
-
-round(JANS / (JANS + AZ + MOD + COM) * 100,1)
-round(AZ / (JANS + AZ + MOD + COM) * 100,1)
-round(MOD / (JANS + AZ + MOD + COM) * 100,1)
-round(COM / (JANS + AZ + MOD + COM) * 100,1)
-
 #
 # Start table 1
 #
@@ -69,14 +55,13 @@ data_osiris_tmp %>%
 ## Sex
 data_osiris_tmp %>% 
   filter(Afspraak_start_datum_CoronIT %in% seq(as.Date("2021-03-01"),as.Date("2021-08-31"),1)) %>% 
-  mutate(Geslacht = case_when(
+  mutate(Geslacht = case_when( # Geslacht = Sex
     Geslacht_osiris == "Man" ~ "M",
     Geslacht_osiris == "Vrouw" ~ "V")) %>% 
   count(Geslacht, name = "National_surveillance") %>% 
   add_row(.before = 1, Geslacht = "Totaal", National_surveillance = sum(.$National_surveillance)) %>% 
   mutate(`%` = round(National_surveillance / first(National_surveillance) * 100,1)) %>% 
   left_join(
-  
     data_variants %>% 
       filter(selectie == "kiemsurveillance") %>% 
       filter(!is.na(sample_status)) %>% 
@@ -104,7 +89,6 @@ data_osiris_tmp %>%
   add_row(.before = 1, symptoms = "Totaal", National_surveillance = sum(.$National_surveillance)) %>% 
   mutate(`%` = round(National_surveillance / first(National_surveillance) * 100,1)) %>% 
   left_join(
-  
     data_variants %>% 
       filter(selectie == "kiemsurveillance") %>% 
       filter(!is.na(sample_status)) %>% 
@@ -117,7 +101,6 @@ data_osiris_tmp %>%
       mutate(`% ` = round(Kiemsurveillance / first(Kiemsurveillance) * 100,1)),
     by = "symptoms") %>% 
   left_join(
-    
     data_variants %>% 
       filter(selectie == "over-sampling") %>% 
       mutate(symptoms = case_when(
@@ -139,7 +122,6 @@ data_osiris_tmp %>%
   add_row(.before = 1, Month = "Totaal", National_surveillance = sum(.$National_surveillance)) %>% 
   mutate(`%` = round(National_surveillance / first(National_surveillance) * 100,1)) %>% 
   left_join(
-    
     data_variants %>% 
       filter(selectie == "kiemsurveillance") %>% 
       filter(!is.na(sample_status)) %>% 
@@ -161,39 +143,14 @@ data_osiris_tmp %>%
 # End table 1
 #
 
-# geen Coronit ID bij de sequence data
-data_variants_org %>% 
-  mutate(`Datum-monstername` = as.Date(`Datum-monstername`, format = "%d-%m-%Y")) %>% 
-  filter(`Datum-monstername` >= as.Date("2021-03-01") & `Datum-monstername` < as.Date("2021-09-01")) %>% # SA: vaststellen van de startdatum, dit is al redelijk vroeg (geen gevaccineerde verwacht)
-  filter(Monsterstroom %in% c("TESTSTRAAT","ZORG")) %>% 
-  filter(is.na(`CoronIT Id`)) %>% 
-  nrow
-
-
 # Per vaccine
 data_osiris_tmp %>% 
   filter(Afspraak_start_datum_CoronIT %in% seq(as.Date("2021-03-01"),as.Date("2021-08-31"),1)) %>% 
   filter(Vaccinatie_status_ezd_Desc %in% c("Deels", "Volledig")) %>% 
-  count( Vaccinatie_merk) %>% 
+  count(Vaccinatie_merk) %>% 
   filter(!Vaccinatie_merk == "Heteroloog: 1-AstraZeneca, 2-Pfizer") %>% 
   add_row(.before = 1, Vaccinatie_merk = "Totaal", n = sum(.$n)) %>% 
   mutate(`%  ` = round(n / first(n) * 100,1))
-  
-
-
-# Coronit ID niet in osiris
-data_variants %>% 
-  filter(selectie == "kiemsurveillance") %>% 
-  filter(is.na(sample_status)) %>% nrow
-
-
-data_variants %>% filter(is.na(sample_status)) %>% 
-  count(Monsternummer %in% data_osiris_tmp$Monsternummer,
-        Monsternummer %in% data_teststraten_tmp$Monsternummer)
-
-data_variants %>% filter(!is.na(Beta_alpha) & !is.na(sample_status)) %>% 
-  count(sample_status, Beta_alpha, Vaccinatie_status_ezd_Desc) 
-
 
 data_variants %>% 
   filter(selectie == "kiemsurveillance" & !is.na(sample_status)) %>% 
@@ -206,8 +163,7 @@ data_variants %>%
   mutate(`%  ` = round(n / first(n) * 100,1))
   
 data_variants %>% 
-  filter(#selectie == "kiemsurveillance" & 
-           !is.na(sample_status)) %>% 
+  filter(!is.na(sample_status)) %>% 
   count(WHO_label) %>% 
   add_row(.before = 1, WHO_label = "Totaal", n = sum(.$n)) %>% 
   mutate(`%  ` = round(n / first(n) * 100,1))
