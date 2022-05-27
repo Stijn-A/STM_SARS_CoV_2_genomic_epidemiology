@@ -9,7 +9,6 @@ model_MLR <- data_variants %>%
   filter(WHO_label != "Other" &
            sample_status %in% c("Naive","Partially vaccinated","Fully vaccinated", "Previous infection")) %>%
   droplevels() %>% 
-  
   vglm(
     formula = WHO_label ~ ns(isoweek_monstername, df = n_knots) + sample_status + Leeftijdsgroep10 + Geslacht,
     family  = multinomial(refLevel = 1),
@@ -26,7 +25,6 @@ table_MLR_variant_immunestatus <- bind_cols(OR = OR, ci = ci_OR) %>% as_tibble()
       str_replace(":2", ":Gamma") %>% 
       str_replace(":3", ":Delta") %>% 
       str_remove("sample_status"),
-    
     label = str_c(format(round(OR,1), nsmall = 1, trim = T)
                   ," (",format(round(`2.5 %`,1), nsmall = 1, trim = T),"-", 
                   format(round(`97.5 %`,1), nsmall = 1, trim = T),")")) %>% 
@@ -66,7 +64,6 @@ table_MLR_variant_immunestatus_full <- bind_cols(OR = OR, ci = ci_OR) %>% as_tib
       str_remove("sample_status") %>% 
       str_replace("Leeftijdsgroep10", "Age ") %>% 
       str_replace("GeslachtV", "Sex F"),
-    
     label = str_c(format(round(OR,1), nsmall = 1, trim = T)
                   ," (",format(round(`2.5 %`,1), nsmall = 1, trim = T),"-", 
                   format(round(`97.5 %`,1), nsmall = 1, trim = T),")"),
@@ -105,7 +102,6 @@ model_MLR_kiem <- data_variants %>%
   filter(WHO_label != "Other" &
            sample_status %in% c("Naive","Partially vaccinated","Fully vaccinated", "Previous infection")) %>%
   droplevels() %>% 
-  
   vglm(
     formula = WHO_label ~ ns(isoweek_monstername, df = n_knots) + sample_status + Leeftijdsgroep10 + Geslacht,
     family  = multinomial(refLevel = 1),
@@ -121,10 +117,8 @@ table_MLR_variant_immunestatus_kiem <- bind_cols(OR = OR_kiem, ci = ci_OR_kiem) 
       str_replace(":2", ":Gamma") %>% 
       str_replace(":3", ":Delta") %>% 
       str_remove("sample_status"),
-    
     label = str_c(format(round(OR,1), nsmall = 1, trim = T)
                   ," (",format(round(`2.5 %`,1), nsmall = 1, trim = T),"-", 
                   format(round(`97.5 %`,1), nsmall = 1, trim = T),")")) %>% 
   separate(var, into = c("Immuunstatus", "Variant"),  sep = ":") %>% 
   mutate(Variant = Variant %>% factor(levels = c("Beta", "Gamma", "Delta")))
-
