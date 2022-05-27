@@ -1,9 +1,5 @@
-
-
-############################
-
+# Time since vaccination
 n_knots <- 5
-
 
 model_MLR_waning <- data_variants %>% 
   mutate(
@@ -23,12 +19,10 @@ model_MLR_waning <- data_variants %>%
   filter(WHO_label != "Other" &
            sample_status %in% c("Naive","Partially vaccinated","Fully vaccinated", "Previous infection")) %>%
   droplevels() %>% 
-  
   vglm(
     formula = WHO_label ~ ns(isoweek_monstername, df = n_knots) + waning_status + Leeftijdsgroep10 + Geslacht,
     family  = multinomial(refLevel = 1),
     data    = .)
-
 
 OR_waning    <- model_MLR_waning %>% coef() %>% exp() %>% as.data.frame() %>% rownames_to_column(var = "var") %>% rename("OR" = ".")
 ci_OR_waning <- model_MLR_waning %>% confint() %>% exp() %>% as.data.frame()
@@ -40,10 +34,8 @@ table_MLR_variant_waning <- bind_cols(OR = OR_waning, ci = ci_OR_waning) %>% as_
       str_replace(":2", ":Gamma") %>% 
       str_replace(":3", ":Delta") %>% 
       str_remove("sample_status"),
-    
     label = str_c(format(round(OR,1), nsmall = 1, trim = T)
                   ," (",format(round(`2.5 %`,1), nsmall = 1, trim = T),"-", 
                   format(round(`97.5 %`,1), nsmall = 1, trim = T),")")) %>% 
   separate(var, into = c("Immuunstatus", "Variant"),  sep = ":") %>% 
   mutate(Variant = Variant %>% factor(levels = c("Beta", "Gamma", "Delta")))
-
