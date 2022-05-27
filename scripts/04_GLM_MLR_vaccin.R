@@ -1,8 +1,5 @@
-
-############################
-
+# per vaccin
 n_knots <- 5
-
 
 model_MLR_vaccin <- data_variants %>% 
   mutate(
@@ -30,7 +27,6 @@ model_MLR_vaccin <- data_variants %>%
   filter(WHO_label != "Other" &
            sample_status %in% c("Naive","Partially vaccinated","Fully vaccinated", "Previous infection")) %>%
   droplevels() %>% 
-  
   vglm(
     formula = WHO_label ~ ns(isoweek_monstername, df = n_knots) + vaccin + Leeftijdsgroep10 + Geslacht,
     family  = multinomial(refLevel = 1),
@@ -46,10 +42,8 @@ tabel_figuur_variant_immunestatus_vaccin <- bind_cols(OR = OR_vaccin, ci = ci_OR
       str_replace(":2", ":Gamma") %>% 
       str_replace(":3", ":Delta") %>% 
       str_remove("sample_status"),
-    
     label = str_c(format(round(OR,1), nsmall = 1, trim = T)
                   ," (",format(round(`2.5 %`,1), nsmall = 1, trim = T),"-", 
                   format(round(`97.5 %`,1), nsmall = 1, trim = T),")")) %>% 
   separate(var, into = c("Immuunstatus", "Variant"),  sep = ":") %>% 
   mutate(Variant = Variant %>% factor(levels = c("Beta", "Gamma", "Delta")))
-
