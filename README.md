@@ -5,4 +5,4 @@ This repository contains the scripts for statistical analysis, figures, and tabl
 in vaccinated individuals" Stijn P. Andeweg*, Harry Vennema*, Irene Veldhuijzen, Naomi Smorenburg, 
 Dennis Schmitz, Florian Zwagemaker, SeqNeth Molecular surveillance group, 
 RIVM COVID-19 Molecular epidemiology group, Arianne B. van Gageldonk-Lafeber, Susan J.M. Hahné, 
-Chantal Reusken, Mirjam J. Knol1* & Dirk Eggink1*.
+Chantal Reusken, Mirjam J. Knol* & Dirk Eggink*.
