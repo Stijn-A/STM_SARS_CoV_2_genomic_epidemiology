@@ -1,6 +1,5 @@
 #Data for figures
 
-
 list(
   `Fig. 1` = table_immune_status %>%
     mutate(value = value %>% replace_na(0)) %>%
@@ -52,6 +51,7 @@ list(
       `Proportion (%)`
     ) %>%
     arrange(`Week of sampling`, sample_status, Variant),
+  
   `Fig. S3` = tabel_figuur_variant_immunestatus_full %>% 
     rename(Variable = Immuunstatus)
 ) %>% 
