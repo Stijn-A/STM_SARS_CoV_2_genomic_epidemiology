@@ -6,3 +6,5 @@ in vaccinated individuals" Stijn P. Andeweg*, Harry Vennema*, Irene Veldhuijzen,
 Dennis Schmitz, Florian Zwagemaker, SeqNeth Molecular surveillance group, 
 RIVM COVID-19 Molecular epidemiology group, Arianne B. van Gageldonk-Lafeber, Susan J.M. Hahné, 
 Chantal Reusken, Mirjam J. Knol* & Dirk Eggink*.
+
+\* These authors contributed equally to this article
